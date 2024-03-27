@@ -258,6 +258,19 @@ nav ul li a {
   fill: var(--primaryIconColor);
 }
 
+.service ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left; /* Align text to the left */
+}
+
+.service ul li {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #666; /* Change color as needed */
+}
+
 /* Portfolios */
 #portfolios {
   padding: var(--sectionPadding);
@@ -303,6 +316,14 @@ nav ul li a {
   transition: 0.2s ease-in-out;
 }
 
+.portfolio-detail {
+  display: flex;
+}
+
+.portfolio-detail .portfolio-link {
+  padding-right: 20px;
+}
+
 .portfolio-tags {
   display: flex;
   gap: 1rem;
@@ -321,6 +342,14 @@ nav ul li a {
   border: 1px solid var(--borderColor);
   padding: 0.4rem 1rem;
   color: var(--secondaryTextColor);
+}
+
+.project-description {
+  padding-top: 15px;
+}
+
+.project-description h4 {
+  padding-bottom: 15px;
 }
 
 /* Skills and Education */
