@@ -352,10 +352,53 @@ nav ul li a {
   padding-bottom: 15px;
 }
 
+#work-experience {
+  padding: 50px 0;
+  padding: var(--sectionPadding);
+  background: var(--secondaryBackgroundColor);
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+}
+
+.job {
+  margin-bottom: 30px;
+}
+
+.job h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.company {
+  font-style: italic;
+  color: #666;
+}
+
+.duration {
+  color: #999;
+}
+
+.responsibilities {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.responsibilities li {
+  list-style-type: disc;
+  margin-bottom: 5px;
+}
+
 /* Skills and Education */
 #skills {
   padding: var(--sectionPadding);
-  background: var(--secondaryBackgroundColor);
 }
 
 .skills-grid {
@@ -415,6 +458,7 @@ nav ul li a {
 /* Contact Section */
 #contact {
   padding: var(--sectionPadding);
+  background: var(--secondaryBackgroundColor);
 }
 
 .contact {
@@ -494,7 +538,6 @@ nav ul li a {
 /* Footer Section */
 footer {
   padding: 4rem 0;
-  background: var(--secondaryBackgroundColor);
   text-align: center;
 }
 
