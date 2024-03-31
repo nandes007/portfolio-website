@@ -113,7 +113,7 @@ a {
 }
 
 /* Layouts */
-.grid-3 {
+.grid-2 {
   display: grid;
   /* grid-template-columns: 1fr 1fr 1fr; use this first, use code below when its time for explaining responsive design part */
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -342,6 +342,10 @@ nav ul li a {
   border: 1px solid var(--borderColor);
   padding: 0.4rem 1rem;
   color: var(--secondaryTextColor);
+}
+
+.portfolio-2 {
+  margin-top: 20px;
 }
 
 .project-description {
