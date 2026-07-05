@@ -6,11 +6,10 @@ import { useReveal } from "../../composables/useReveal";
 
 const { el, visible } = useReveal();
 
-const yearsExperience = new Date().getFullYear() - profile.careerStartYear;
 const companyCount = new Set(experiences.map((e) => e.company)).size;
 
 const stats = [
-  { label: "Years Experience", value: `${yearsExperience}+` },
+  { label: "Years Experience", value: profile.experienceYears },
   { label: "Companies", value: `${companyCount}` },
   { label: "Technologies", value: `${skills.length}+` },
 ];
@@ -25,7 +24,9 @@ const stats = [
   >
     <SectionTitle title="About Me" />
 
-    <div class="flex items-center justify-center gap-2 text-muted">
+    <p class="text-center text-lg text-muted leading-relaxed">{{ profile.summary }}</p>
+
+    <div class="mt-6 flex items-center justify-center gap-2 text-muted">
       <MapPin :size="18" />
       <span>{{ profile.location }}</span>
     </div>

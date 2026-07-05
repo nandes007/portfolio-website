@@ -23,7 +23,6 @@ const { el, visible } = useReveal();
     >
       <h1 class="text-4xl md:text-6xl font-bold text-text">{{ profile.name }}</h1>
       <p class="mt-4 text-lg md:text-xl text-primary font-medium">{{ profile.role }}</p>
-      <p class="mt-6 max-w-2xl mx-auto text-muted">{{ profile.summary }}</p>
 
       <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
         <Button href="#projects" variant="primary">View Work</Button>

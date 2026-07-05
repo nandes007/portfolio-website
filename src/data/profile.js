@@ -7,9 +7,9 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/fernandessimanjuntak/",
   github: "https://github.com/nandes007",
   resumeUrl: "/resume.pdf",
-  careerStartYear: 2019,
+  experienceYears: "5+",
   summary:
-    "I am a software engineer focused on full stack development, working across the stacks below. I'm not limited to that pile and open to learning new stacks and taking on new challenges.",
+    "With 5+ years of experience across full-stack development, I build systems that are resilient by design — from event-driven backends to APIs teams can depend on. I care as much about the people I build with as the code itself, and thrive on close collaboration with engineers and stakeholders to turn ambiguous problems into dependable, well-tested solutions. Always curious, I pick up new stacks readily whenever the challenge calls for it.",
 };
 
 export const skills = [
