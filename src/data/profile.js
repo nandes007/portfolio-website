@@ -84,19 +84,20 @@ export const experiences = [
   },
 ];
 
-// TODO: replace description/tags with real content later
 export const projects = [
   {
     name: "Meeting Room Booking",
-    description: "PLACEHOLDER — add real description.",
-    tags: ["PLACEHOLDER"],
+    description:
+      "Full-stack meeting room reservation system with separate admin and employee portals. Features PASETO-based authentication, room and employee management, a booking approval workflow, and a Swagger-documented REST API with Liquibase migrations and one-command Docker Compose setup.",
+    tags: ["Java", "Spring Boot", "PostgreSQL", "Vue.js", "TypeScript", "Tailwind CSS"],
     github: "https://github.com/nandes007/meeting-room-booking",
     demo: "", // add when deployed
   },
   {
     name: "Chinese Translator",
-    description: "PLACEHOLDER — add real description.",
-    tags: ["PLACEHOLDER"],
+    description:
+      "Real-time speech translation tool that captures Mandarin meeting audio, transcribes it with Groq's Whisper API, and translates it to Indonesian via an LLM, streamed live over WebSockets with a custom voice-activity detector — built to bridge the language gap in cross-country team meetings.",
+    tags: ["Python", "FastAPI", "JavaScript", "HTML5"],
     github: "https://github.com/nandes007/chinese-translator",
     demo: "", // add when deployed
   },
