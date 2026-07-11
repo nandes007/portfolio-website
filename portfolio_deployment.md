@@ -236,55 +236,64 @@ chmod +x ~/deploy.sh
 
 ---
 
-## Next phase — Auto-deploy with GitHub Actions
+## Next phase — Auto-deploy with GitHub Actions (via Cloudflare Tunnel)
 
-When you're ready to deploy automatically on every push to `main`, the workflow simply SSHes into the VPS and runs the same `deploy.sh`.
+The workflow SSHes into the VPS and runs the same `deploy.sh`. But **GitHub-hosted runners have no IPv6**, and this VPS is only reachable over IPv6 — so the runner can't SSH to it directly. The fix: a **Cloudflare Tunnel**. `cloudflared` on the VPS opens an *outbound* connection to Cloudflare's edge; the GitHub runner connects to Cloudflare over IPv4, and Cloudflare relays to the VPS. Bonus: your SSH port is no longer exposed to the internet.
 
-> This is a different key from the one in Step 5 — that one lets the **VPS pull from GitHub** (read-only deploy key). This one lets **GitHub Actions log into the VPS** (needs shell access to run `deploy.sh`), so it's a regular user SSH key, not a repo deploy key.
+The workflow file already exists in the repo at `.github/workflows/deploy.yml`. The one-time setup:
 
-### 1. Create a deploy SSH key
+### 1. Create the tunnel (Cloudflare dashboard)
 
-On your laptop:
+1. https://one.dash.cloudflare.com → **Networks → Tunnels → Create a tunnel** → type **Cloudflared** → name it `vps-ssh`.
+2. The dashboard shows an install command with a token. Run it on the VPS (Debian/Ubuntu):
+
+```bash
+curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb
+sudo dpkg -i cloudflared.deb
+sudo cloudflared service install <TOKEN_FROM_DASHBOARD>
+```
+
+3. Back in the dashboard, the tunnel should show **Healthy**. Click the tunnel's name to open its detail page → **Routes** tab → **Add route** → **Published application** (Cloudflare's current name for what used to be "Public Hostname"):
+   - Subdomain: `ssh`, Domain: `nandes.tech` (full hostname shows as `ssh.nandes.tech`)
+   - Path: leave empty
+   - Service URL: **`ssh://localhost:22`** — this UI has no separate "type" dropdown; the scheme prefix (`ssh://`, `https://`, `tcp://`) *is* the type. Without `ssh://` it defaults to HTTP and the tunnel won't work for SSH.
+   - Click **Add route**
+
+### 2. Create a deploy SSH key
+
+This is a different key from the one in Step 5 — that one lets the **VPS pull from GitHub** (read-only deploy key). This one lets **GitHub Actions log into the VPS** to run `deploy.sh`. On your laptop:
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/portfolio_deploy -N ""
-ssh-copy-id -i ~/.ssh/portfolio_deploy.pub nandes@YOUR_VPS_IP
+ssh-copy-id -i ~/.ssh/portfolio_deploy.pub nandes@YOUR_VPS_IPV6
 ```
 
-### 2. Add GitHub repository secrets
+### 3. Test the tunnel from your laptop
 
-In the repo → Settings → Secrets and variables → Actions, add:
-
-| Secret     | Value                                        |
-|------------|----------------------------------------------|
-| `VPS_HOST` | the same host/IP/port you use for `ssh` from your laptop |
-| `VPS_USER` | `nandes`                                     |
-| `VPS_KEY`  | contents of `~/.ssh/portfolio_deploy` (the **private** key) |
-
-> **Gotcha:** GitHub-hosted runners have **no IPv6**. If your SSH access is via the VPS's IPv6 address, the workflow can't connect — test with a manual run first. Workarounds: 8labs' NAT'd SSH port on the shared IPv4 (if your plan has one), or a Cloudflare Tunnel.
-
-### 3. Add the workflow file
-
-Create `.github/workflows/deploy.yml` in the repo:
-
-```yaml
-name: Deploy
-on:
-  push:
-    branches: [main]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_KEY }}
-          script: ~/deploy.sh
+```bash
+brew install cloudflared   # or the .deb above on Linux/WSL
+ssh -i ~/.ssh/portfolio_deploy \
+    -o ProxyCommand="cloudflared access ssh --hostname ssh.nandes.tech" \
+    nandes@ssh.nandes.tech 'echo tunnel works'
 ```
 
-Push to `main` → GitHub Actions runs → VPS pulls, builds, and publishes. Manual deploys via `./deploy.sh` still work anytime.
+This must work before the Action can — same path, same key.
+
+### 4. Add GitHub repository secrets
+
+Repo → Settings → Secrets and variables → Actions:
+
+| Secret             | Value                                                    |
+|--------------------|----------------------------------------------------------|
+| `VPS_SSH_HOSTNAME` | `ssh.nandes.tech` (the tunnel hostname, not the IPv6)    |
+| `VPS_USER`         | `nandes`                                                 |
+| `VPS_KEY`          | contents of `~/.ssh/portfolio_deploy` (the **private** key) |
+
+### 5. Push to `main`
+
+GitHub Actions runs → connects through the tunnel → VPS pulls, builds, and publishes via `~/deploy.sh` (make sure it exists and is `chmod +x`, see Step 8). Manual deploys via `./deploy.sh` still work anytime.
+
+> **Hardening (optional, later):** with the tunnel proven, you can drop `sudo ufw allow OpenSSH` — SSH then only accepts connections arriving through the tunnel (loopback), and even your own logins go via `cloudflared access ssh`. You can also add a Cloudflare Access policy on the `ssh.` hostname (Zero Trust → Access) with a [service token](https://developers.cloudflare.com/cloudflare-one/identity/service-tokens/) for CI to require authentication *before* anything reaches sshd.
 
 ---
 
@@ -301,4 +310,4 @@ Push to `main` → GitHub Actions runs → VPS pulls, builds, and publishes. Man
 - [ ] Nginx site config (with `listen [::]:80`) + reload
 - [ ] Cloudflare SSL: Flexible mode + Always Use HTTPS
 - [ ] Create `~/deploy.sh` for one-command redeploys
-- [ ] (Later) GitHub Actions workflow + secrets for auto-deploy
+- [ ] (Later) Cloudflare Tunnel on VPS + SSH deploy key + GitHub secrets → auto-deploy on push

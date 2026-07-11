@@ -1,0 +1,35 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+# never run two deploys at once; a newer push cancels an in-flight one
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install cloudflared
+        run: |
+          curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /tmp/cloudflared
+          chmod +x /tmp/cloudflared
+          sudo mv /tmp/cloudflared /usr/local/bin/cloudflared
+
+      # GitHub runners have no IPv6, so we reach the VPS through a
+      # Cloudflare Tunnel: ssh -> cloudflared (IPv4, HTTPS) -> tunnel -> VPS
+      - name: Deploy over SSH via Cloudflare Tunnel
+        env:
+          SSH_KEY: ${{ secrets.VPS_KEY }}
+          SSH_HOST: ${{ secrets.VPS_SSH_HOSTNAME }}
+          SSH_USER: ${{ secrets.VPS_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh -i ~/.ssh/deploy_key \
+              -o ProxyCommand="cloudflared access ssh --hostname $SSH_HOST" \
+              -o StrictHostKeyChecking=accept-new \
+              "$SSH_USER@$SSH_HOST" './deploy.sh'
