@@ -5,10 +5,11 @@ defineProps({
 });
 
 const base =
-  "inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium transition-colors duration-200";
+  "inline-flex items-center gap-2 rounded-lg px-6 py-3 font-mono text-sm transition-all duration-300";
 const variants = {
-  primary: "bg-primary text-white hover:bg-primary/90",
-  ghost: "border border-white/15 text-text hover:bg-white/5",
+  primary:
+    "border border-accent/60 text-accent hover:bg-accent/10 hover:shadow-[0_0_25px_-5px_rgba(94,234,212,0.4)]",
+  ghost: "border border-line text-text hover:border-muted hover:bg-white/5",
 };
 </script>
 

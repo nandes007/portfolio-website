@@ -6,11 +6,10 @@ import ExperienceItem from "./ExperienceItem.vue";
 
 <template>
   <section id="experience" class="mx-auto max-w-3xl px-6 py-24">
-    <SectionTitle title="Experience" />
+    <SectionTitle number="03" title="Experience" />
 
     <div>
       <ExperienceItem v-for="exp in experiences" :key="exp.company + exp.period" :exp="exp" />
     </div>
   </section>
-
 </template>

@@ -3,12 +3,16 @@
 @theme {
   --font-sans: "Inter", system-ui, sans-serif;
   --font-heading: "Sora", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-bg: #0b1120;
-  --color-surface: #111827;
-  --color-primary: #6366f1;
-  --color-text: #e5e7eb;
-  --color-muted: #94a3b8;
+  --color-bg: #060910;
+  --color-surface: #0b101c;
+  --color-line: rgba(140, 152, 180, 0.14);
+  --color-accent: #5eead4;
+  --color-accent-2: #818cf8;
+  --color-heading: #e8edf5;
+  --color-text: #c9d2e0;
+  --color-muted: #8792a6;
 }
 
 html {
@@ -21,11 +25,76 @@ body {
   color: var(--color-text);
 }
 
+/* faint blueprint grid, fading out toward the bottom */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(140, 152, 180, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 152, 180, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 65% at 50% 0%, black 30%, transparent 100%);
+  pointer-events: none;
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
+  color: var(--color-heading);
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
 ::selection {
-  background: var(--color-primary);
-  color: white;
+  background: var(--color-accent);
+  color: #060910;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2839;
+  border-radius: 9999px;
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2c3a52;
+}
+
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.06); }
+  66% { transform: translate(-20px, 20px) scale(0.96); }
+}
+
+.fade-down {
+  animation: fade-down 0.5s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

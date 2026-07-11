@@ -9,7 +9,7 @@ const { el, visible } = useReveal();
 const companyCount = new Set(experiences.map((e) => e.company)).size;
 
 const stats = [
-  { label: "Years Experience", value: profile.experienceYears },
+  { label: "Years of experience", value: profile.experienceYears },
   { label: "Companies", value: `${companyCount}` },
   { label: "Technologies", value: `${skills.length}+` },
 ];
@@ -19,22 +19,26 @@ const stats = [
   <section
     id="about"
     ref="el"
-    class="mx-auto max-w-4xl px-6 py-24 transition-all duration-700 ease-out"
-    :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
+    class="mx-auto max-w-5xl px-6 py-24 transition-all duration-700 ease-out"
+    :class="visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'"
   >
-    <SectionTitle title="About Me" />
+    <SectionTitle number="01" title="About Me" />
 
-    <p class="text-center text-lg text-muted leading-relaxed">{{ profile.summary }}</p>
+    <div class="grid gap-12 md:grid-cols-[1.5fr_1fr]">
+      <div>
+        <p class="text-lg leading-relaxed text-muted">{{ profile.summary }}</p>
+        <p class="mt-6 inline-flex items-center gap-2 font-mono text-sm text-muted">
+          <MapPin :size="16" class="text-accent" />
+          {{ profile.location }}
+        </p>
+      </div>
 
-    <div class="mt-6 flex items-center justify-center gap-2 text-muted">
-      <MapPin :size="18" />
-      <span>{{ profile.location }}</span>
-    </div>
-
-    <div class="mt-12 grid grid-cols-3 gap-6 text-center">
-      <div v-for="stat in stats" :key="stat.label">
-        <p class="text-3xl md:text-4xl font-bold text-primary">{{ stat.value }}</p>
-        <p class="mt-1 text-sm text-muted">{{ stat.label }}</p>
+      <div class="flex flex-col gap-6 border-l border-line pl-8">
+        <div v-for="(stat, i) in stats" :key="stat.label" class="relative">
+          <span class="absolute -left-9.25 top-2 h-2 w-2 rounded-full bg-accent" />
+          <p class="font-heading text-3xl font-bold text-accent md:text-4xl">{{ stat.value }}</p>
+          <p class="mt-1 font-mono text-xs uppercase tracking-wider text-muted">{{ stat.label }}</p>
+        </div>
       </div>
     </div>
   </section>
