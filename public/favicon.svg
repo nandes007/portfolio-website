@@ -1,51 +1,35 @@
 <svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#181234"/>
-      <stop offset="100%" stop-color="#2E1A6E"/>
+      <stop offset="0%" stop-color="#0b101c"/>
+      <stop offset="100%" stop-color="#060910"/>
     </linearGradient>
-    <linearGradient id="fTop" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#8B6CF1"/>
-      <stop offset="100%" stop-color="#5B3FE0"/>
-    </linearGradient>
-    <linearGradient id="fRight" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#6D4CE8"/>
-      <stop offset="100%" stop-color="#4A2FCB"/>
-    </linearGradient>
-    <linearGradient id="fLeft" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4A2FCB"/>
-      <stop offset="100%" stop-color="#2E1A9E"/>
-    </linearGradient>
-    <linearGradient id="fBottom" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3A22B0"/>
-      <stop offset="100%" stop-color="#210F70"/>
+    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#5eead4" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#5eead4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#818cf8"/>
     </linearGradient>
   </defs>
 
-  <!-- background: rounded square -->
-  <rect x="0" y="0" width="256" height="256" rx="52" fill="url(#bg)"/>
+  <rect width="256" height="256" rx="54" fill="url(#bg)"/>
+  <rect width="256" height="256" rx="54" fill="url(#glow)"/>
+  <rect x="1.5" y="1.5" width="253" height="253" rx="52.5" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="3"/>
 
-  <!-- faceted gem / node mark -->
-  <g>
-    <!-- top facet -->
-    <polygon points="128,44 74,128 128,128" fill="url(#fTop)"/>
-    <polygon points="128,44 182,128 128,128" fill="url(#fRight)"/>
-    <!-- left facet -->
-    <polygon points="74,128 128,128 128,212" fill="url(#fLeft)"/>
-    <!-- bottom/right facet -->
-    <polygon points="182,128 128,128 128,212" fill="url(#fBottom)"/>
+  <text
+    x="50%"
+    y="132"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace"
+    font-size="92"
+    font-weight="600"
+    letter-spacing="-2"
+  >
+    <tspan fill="#5eead4">&lt;</tspan><tspan fill="#e8edf5">FS</tspan><tspan fill="#5eead4">/&gt;</tspan>
+  </text>
 
-    <!-- highlight sliver for gem shine -->
-    <polygon points="128,44 106,84 128,128" fill="#FFFFFF" opacity="0.16"/>
-
-    <!-- fine facet edges -->
-    <polyline points="128,44 74,128 128,212 182,128 128,44" fill="none" stroke="#0F0830" stroke-width="2.5" stroke-linejoin="round"/>
-    <line x1="128" y1="44" x2="128" y2="212" stroke="#0F0830" stroke-width="1.5" opacity="0.6"/>
-    <line x1="74" y1="128" x2="182" y2="128" stroke="#0F0830" stroke-width="1.5" opacity="0.6"/>
-  </g>
-
-  <!-- three small orbit nodes representing AI / connectivity -->
-  <circle cx="128" cy="44" r="7" fill="#D8CCFF"/>
-  <circle cx="74" cy="128" r="5.5" fill="#B9A6FF" opacity="0.9"/>
-  <circle cx="182" cy="128" r="5.5" fill="#B9A6FF" opacity="0.9"/>
+  <rect x="72" y="180" width="112" height="6" rx="3" fill="url(#bar)"/>
 </svg>
