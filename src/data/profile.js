@@ -5,7 +5,7 @@ export const profile = {
   email: "nandessimanjuntak1803@gmail.com",
   linkedin: "https://www.linkedin.com/in/fernandessimanjuntak/",
   github: "https://github.com/nandes007",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/resume.pdf?v=2026-07-12", // bump this date whenever resume.pdf is replaced, busts Cloudflare/browser cache
   experienceYears: "5+",
   summary:
     "With 5+ years of experience across full-stack development, I build systems that are resilient by design — from event-driven backends to APIs teams can depend on. I care as much about the people I build with as the code itself, and thrive on close collaboration with engineers and stakeholders to turn ambiguous problems into dependable, well-tested solutions. Always curious, I pick up new stacks readily whenever the challenge calls for it.",
