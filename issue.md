@@ -62,7 +62,6 @@ export const profile = {
   role: "Software Engineer — Full Stack",
   location: "West Jakarta, DKI Jakarta",
   email: "nandessimanjuntak1803@gmail.com",
-  phone: "+62 81387077785",
   linkedin: "https://www.linkedin.com/in/fernandessimanjuntak/",
   github: "https://github.com/nandes007",
   resumeUrl: "/resume.pdf",

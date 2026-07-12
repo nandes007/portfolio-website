@@ -31,9 +31,6 @@ const { el, visible } = useReveal();
       <a :href="`mailto:${profile.email}`" class="inline-flex items-center gap-2 transition-colors hover:text-accent">
         <Mail :size="14" /> {{ profile.email }}
       </a>
-      <span class="inline-flex items-center gap-2">
-        <Phone :size="14" /> {{ profile.phone }}
-      </span>
       <a :href="profile.linkedin" target="_blank" rel="noopener" class="inline-flex items-center gap-2 transition-colors hover:text-accent">
         <Linkedin :size="14" /> LinkedIn
       </a>
